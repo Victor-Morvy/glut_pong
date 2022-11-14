@@ -129,6 +129,8 @@ void Scenario::computeCollision()
 
 	};
 	
+	bool playAudio = false;
+
 	float tmpAngle = ball->getAngle();
 	if (ball->getPos()[1] > 720 - ball->getRadius() / 2) //TOP
 	{
@@ -147,6 +149,8 @@ void Scenario::computeCollision()
 			tmpAngle += 270.f;
 		}
 		ball->setAngle(tmpAngle);
+
+		playAudio = true;
 		
 	}
 	else if (ball->getPos()[1] < 0 + ball->getRadius() / 2) //BOT
@@ -167,6 +171,8 @@ void Scenario::computeCollision()
 			tmpAngle = 360.f - ball->getAngle();
 		}
 		ball->setAngle(tmpAngle);
+
+		playAudio = true;
 	}
 	else if (ball->getPos()[0] - ball->getRadius() / 2 < player1->getPos()[0] + player1->size()[0] / 2 &&
 		ball->getPos()[1] - ball->getRadius() / 2 > player1->getPos()[1] - player1->size()[1] / 2
@@ -192,6 +198,8 @@ void Scenario::computeCollision()
 				ball->setVel(ball->vel() + 3);
 
 			ball->setAngle(tmpAngle);
+
+			playAudio = true;
 		}
 
 	}
@@ -220,6 +228,8 @@ void Scenario::computeCollision()
 				ball->setVel(ball->vel() + 3);
 
 			ball->setAngle(tmpAngle);
+
+			playAudio = true;
 		}
 	}
 	else if (ball->getPos()[0] - ball->getRadius() / 2 < 0)
@@ -232,6 +242,13 @@ void Scenario::computeCollision()
 		score_player1 += 1;
 		reset();
 	}
+
+	if (playAudio)
+	{
+		PlaySound(TEXT("./resources/hit1.wav"), NULL, SND_ASYNC | SND_FILENAME );
+	}
+
+
 
 }
 
