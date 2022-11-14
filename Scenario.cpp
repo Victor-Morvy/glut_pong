@@ -1,6 +1,7 @@
 #include "Scenario.h"
 #include <iostream>
 #include <sstream>
+#include <time.h>
 
 Scenario* Scenario::singleton_ = nullptr;
 
@@ -130,6 +131,7 @@ void Scenario::computeCollision()
 	};
 	
 	bool playAudio = false;
+	bool playAudioSide = false;
 
 	float tmpAngle = ball->getAngle();
 	if (ball->getPos()[1] > 720 - ball->getRadius() / 2) //TOP
@@ -150,7 +152,7 @@ void Scenario::computeCollision()
 		}
 		ball->setAngle(tmpAngle);
 
-		playAudio = true;
+		playAudioSide = true;
 		
 	}
 	else if (ball->getPos()[1] < 0 + ball->getRadius() / 2) //BOT
@@ -172,7 +174,7 @@ void Scenario::computeCollision()
 		}
 		ball->setAngle(tmpAngle);
 
-		playAudio = true;
+		playAudioSide = true;
 	}
 	else if (ball->getPos()[0] - ball->getRadius() / 2 < player1->getPos()[0] + player1->size()[0] / 2 &&
 		ball->getPos()[1] - ball->getRadius() / 2 > player1->getPos()[1] - player1->size()[1] / 2
@@ -245,10 +247,12 @@ void Scenario::computeCollision()
 
 	if (playAudio)
 	{
-		PlaySound(TEXT("./resources/hit1.wav"), NULL, SND_ASYNC | SND_FILENAME );
+		PlaySound(TEXT("./resources/hit1.wav"), NULL, SND_ASYNC | SND_FILENAME);
 	}
-
-
+	if (playAudioSide)
+	{
+		PlaySound(TEXT("./resources/hit2.wav"), NULL, SND_ASYNC | SND_FILENAME);
+	}
 
 }
 
