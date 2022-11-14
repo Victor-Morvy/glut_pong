@@ -101,8 +101,6 @@ PlayerObject* Scenario::getPlayerObj(const std::string name)
 void Scenario::update( float dt )
 {
 	_delta_time = dt;
-
-	computeCollision();
 	
 	std::stringstream ss;
 	ss << score_player1;
@@ -114,6 +112,8 @@ void Scenario::update( float dt )
 
 	for (auto& ett : entities)
 		ett->update(dt);
+
+	computeCollision();
 }
 
 void Scenario::computeCollision()
@@ -129,38 +129,98 @@ void Scenario::computeCollision()
 
 	};
 	
-	float tmpAngle = 35;
-	if (ball->getPos()[1] > 720 - ball->getRadius() / 2)
+	float tmpAngle = ball->getAngle();
+	if (ball->getPos()[1] > 720 - ball->getRadius() / 2) //TOP
 	{
-		
+		float newY = 720 - ball->getRadius() / 2;
+		ball->setY(newY);
+
 		if (ball->getAngle() >= 90.f && ball->getAngle() <= 270.f)
 		{
-			rollBackPos();
+			//rollBackPos();
 			tmpAngle = 180.f + ball->getAngle() - 90.f;
 		}
 		else
 		{
-			rollBackPos();
+			//rollBackPos();
 			tmpAngle = 90.f - ball->getAngle();
 			tmpAngle += 270.f;
 		}
 		ball->setAngle(tmpAngle);
 		
 	}
-	else if (ball->getPos()[1] < 0 + ball->getRadius() / 2)
+	else if (ball->getPos()[1] < 0 + ball->getRadius() / 2) //BOT
 	{	
+
+		float newY = ball->getRadius() / 2;
+		ball->setY(newY);
+
 		if (ball->getAngle() >= 90.f && ball->getAngle() <= 270.f)
 		{
-			rollBackPos();
+			//rollBackPos();
 			tmpAngle = ball->getAngle() - 180.f;
 			tmpAngle = 180.f - tmpAngle;
 		}
 		else
 		{
-			rollBackPos();
+			//rollBackPos();
 			tmpAngle = 360.f - ball->getAngle();
 		}
 		ball->setAngle(tmpAngle);
+	}
+	else if (ball->getPos()[0] - ball->getRadius() / 2 < player1->getPos()[0] + player1->size()[0] / 2 &&
+		ball->getPos()[1] - ball->getRadius() / 2 > player1->getPos()[1] - player1->size()[1] / 2
+		&& ball->getPos()[1] + ball->getRadius() / 2 < player1->getPos()[1] + player1->size()[1] / 2) //player 1
+	{
+		if(1)
+		{
+			float newX = player1->getPos()[0] + player1->size()[0] / 2 + ball->getRadius() / 2;
+			ball->setX(newX);
+
+			if (ball->getAngle() >= 0.f && ball->getAngle() <= 180.f) //subindo
+			{
+				//rollBackPos();
+				tmpAngle = 180.f - ball->getAngle();
+			}
+			else //descendo
+			{
+				//rollBackPos();
+				tmpAngle = 270.f - ball->getAngle();
+				tmpAngle += 270.f;
+			}
+			if (ball->vel() < 30)
+				ball->setVel(ball->vel() + 3);
+
+			ball->setAngle(tmpAngle);
+		}
+
+	}
+	else if (ball->getPos()[0] + ball->getRadius() / 2 > player2->getPos()[0] - player2->size()[0] / 2 && 
+		ball->getPos()[1] - ball->getRadius() / 2 > player2->getPos()[1] - player2->size()[1] / 2
+		&& ball->getPos()[1] + ball->getRadius() / 2 < player2->getPos()[1] + player2->size()[1] / 2) //player2
+	{
+		if (1)
+		{
+			float newX = player2->getPos()[0] - player2->size()[0] / 2 - ball->getRadius() / 2;
+			ball->setX(newX);
+
+			if (ball->getAngle() >= 0.f && ball->getAngle() <= 180.f) //subindo
+			{
+				//rollBackPos();
+				tmpAngle = 180.f - ball->getAngle();
+			}
+			else //descendo
+			{
+				//rollBackPos();
+				tmpAngle = 360.f - ball->getAngle();
+				tmpAngle = 180.f + tmpAngle;
+			}
+
+			if (ball->vel() < 24)
+				ball->setVel(ball->vel() + 3);
+
+			ball->setAngle(tmpAngle);
+		}
 	}
 	else if (ball->getPos()[0] - ball->getRadius() / 2 < 0)
 	{
@@ -172,53 +232,6 @@ void Scenario::computeCollision()
 		score_player1 += 1;
 		reset();
 	}
-	else if (ball->getPos()[0] - ball->getRadius() / 2 < player1->getPos()[0] + player1->size()[0] / 2)
-	{
-		if(ball->getPos()[1] - ball->getRadius() / 2 > player1->getPos()[1] - player1->size()[1] / 2
-			&& ball->getPos()[1] + ball->getRadius() / 2 < player1->getPos()[1] + player1->size()[1] / 2)
-		{
-			if (ball->getAngle() >= 0.f && ball->getAngle() <= 180.f) //subindo
-			{
-				rollBackPos();
-				tmpAngle = 180.f - ball->getAngle();
-			}
-			else //descendo
-			{
-				rollBackPos();
-				tmpAngle = 270.f - ball->getAngle();
-				tmpAngle += 270.f;
-			}
-			if (ball->vel() < 30)
-				ball->setVel(ball->vel() + 3);
-
-			ball->setAngle(tmpAngle);
-		}
-
-	}
-	else if (ball->getPos()[0] + ball->getRadius() / 2 > player2->getPos()[0] - player2->size()[0] / 2)
-	{
-		if (ball->getPos()[1] - ball->getRadius() / 2 > player2->getPos()[1] - player2->size()[1] / 2
-			&& ball->getPos()[1] + ball->getRadius() / 2 < player2->getPos()[1] + player2->size()[1] / 2)
-		{
-			if (ball->getAngle() >= 0.f && ball->getAngle() <= 180.f) //subindo
-			{
-				rollBackPos();
-				tmpAngle = 180.f - ball->getAngle();
-			}
-			else //descendo
-			{
-				rollBackPos();
-				tmpAngle = 360.f - ball->getAngle();
-				tmpAngle = 180.f + tmpAngle;
-			}
-
-			if (ball->vel() < 30)
-				ball->setVel(ball->vel() + 3);
-
-			ball->setAngle(tmpAngle);
-		}
-	}
-	
 
 }
 

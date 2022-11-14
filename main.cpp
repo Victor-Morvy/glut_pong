@@ -24,12 +24,8 @@ void mainLoop( int dt )
 	instance->update(_deltaTime);
 	
 	glutPostRedisplay();
-	//Desenha();
 
-	glutTimerFunc(16, mainLoop, 0);
-
-	
-	
+	glutTimerFunc(16, mainLoop, 0);	
 }
 
 int main(int argc, char** argv)
