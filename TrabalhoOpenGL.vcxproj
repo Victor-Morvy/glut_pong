@@ -158,6 +158,9 @@
     <Media Include="resources\hit1.wav" />
     <Media Include="resources\hit2.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
