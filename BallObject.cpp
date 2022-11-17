@@ -17,9 +17,24 @@ void BallObject::draw()
     lastPos[1] = cy;
     float r = _radius;
     int num_segments = 16;
-    glColor3f(0.0, 0.0, 1.0);
+    glColor3f(1.0, 1.0, 0.0);
 
     glBegin(GL_POLYGON);
+    for (int ii = 0; ii < num_segments; ii++)
+    {
+        float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle
+
+        float x = r * cosf(theta);//calculate the x component
+        float y = r * sinf(theta);//calculate the y component
+
+        glVertex2f(x + cx, y + cy);//output vertex
+
+    }
+    glEnd();
+
+    glColor3f(0, 0, 0.0);
+
+    glBegin(GL_LINE_LOOP);
     for (int ii = 0; ii < num_segments; ii++)
     {
         float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle

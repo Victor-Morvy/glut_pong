@@ -150,12 +150,16 @@
     <ClInclude Include="BallObject.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PlayerObject.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scenario.h" />
     <ClInclude Include="TextObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="resources\hit1.wav" />
     <Media Include="resources\hit2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\tennis.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

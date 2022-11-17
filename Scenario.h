@@ -4,8 +4,10 @@
 #include "BallObject.h"
 #include "TextObject.h"
 #include <vector>
-#include <playsoundapi.h>
 
+#if defined(WIN32)
+#include <playsoundapi.h>
+#endif
 
 class Scenario
 {
@@ -44,6 +46,8 @@ public:
 
 private:
 	PlayerObject* getPlayerObj(std::string);
+
+	float remap(float value, float istart, float istop, float ostart, float ostop);
 
 	void computeCollision();
 

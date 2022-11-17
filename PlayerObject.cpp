@@ -11,31 +11,58 @@ PlayerObject::PlayerObject(float size[2]):
 
 void PlayerObject::draw(){
 	float* pos = getPos(); //0, 1 - x, y
-	glBegin(GL_QUADS);
+	{
+		glBegin(GL_QUADS);
 
-	float leftUp[2];
-	leftUp[0] = pos[0] - _recSize[0] / 2.f;
-	leftUp[1] = pos[1] + _recSize[1] / 2.f;
+		float leftUp[2];
+		leftUp[0] = pos[0] - _recSize[0] / 2.f;
+		leftUp[1] = pos[1] + _recSize[1] / 2.f;
 
-	float rightUp[2];
-	rightUp[0] = pos[0] + _recSize[0] / 2.f;
-	rightUp[1] = pos[1] + _recSize[1] / 2.f;
+		float rightUp[2];
+		rightUp[0] = pos[0] + _recSize[0] / 2.f;
+		rightUp[1] = pos[1] + _recSize[1] / 2.f;
 
-	float rightDown[2];
-	rightDown[0] = pos[0] + _recSize[0] / 2.f;
-	rightDown[1] = pos[1] - _recSize[1] / 2.f;
+		float rightDown[2];
+		rightDown[0] = pos[0] + _recSize[0] / 2.f;
+		rightDown[1] = pos[1] - _recSize[1] / 2.f;
 
-	float leftDown[2];
-	leftDown[0] = pos[0] - _recSize[0] / 2.f;
-	leftDown[1] = pos[1] - _recSize[1] / 2.f;
+		float leftDown[2];
+		leftDown[0] = pos[0] - _recSize[0] / 2.f;
+		leftDown[1] = pos[1] - _recSize[1] / 2.f;
 
-	glColor3f(1.0, 1.0, 0.0);
-	glVertex3f(leftUp[0], leftUp[1], 0.0);
-	glVertex3f(rightUp[0], rightUp[1], 0.0);
-	glVertex3f(rightDown[0], rightDown[1], 0.0);
-	glVertex3f(leftDown[0], leftDown[1], 0.0);
-	glEnd();
+		glColor3f(51.f / 255.f, 129.f / 255.f, 146.f / 255.f);
+		glVertex3f(leftUp[0], leftUp[1], 0.0);
+		glVertex3f(rightUp[0], rightUp[1], 0.0);
+		glVertex3f(rightDown[0], rightDown[1], 0.0);
+		glVertex3f(leftDown[0], leftDown[1], 0.0);
+		glEnd();
+	}
+	{
+		glBegin(GL_LINE_LOOP);
 
+		float leftUp[2];
+		leftUp[0] = pos[0] - _recSize[0] / 2.f;
+		leftUp[1] = pos[1] + _recSize[1] / 2.f;
+
+		float rightUp[2];
+		rightUp[0] = pos[0] + _recSize[0] / 2.f;
+		rightUp[1] = pos[1] + _recSize[1] / 2.f;
+
+		float rightDown[2];
+		rightDown[0] = pos[0] + _recSize[0] / 2.f;
+		rightDown[1] = pos[1] - _recSize[1] / 2.f;
+
+		float leftDown[2];
+		leftDown[0] = pos[0] - _recSize[0] / 2.f;
+		leftDown[1] = pos[1] - _recSize[1] / 2.f;
+
+		glColor3f(0, 0, 0);
+		glVertex3f(leftUp[0], leftUp[1], 0.0);
+		glVertex3f(rightUp[0], rightUp[1], 0.0);
+		glVertex3f(rightDown[0], rightDown[1], 0.0);
+		glVertex3f(leftDown[0], leftDown[1], 0.0);
+		glEnd();
+	}
 }
 
 void PlayerObject::update( float dt )

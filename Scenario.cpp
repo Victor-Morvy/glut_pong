@@ -2,6 +2,10 @@
 #include <iostream>
 #include <sstream>
 #include <time.h>
+#include <gl/GL.h>
+#include <gl/freeglut.h>
+//#include "C:/Users/morvy/OneDrive/Documentos/GitHub/vcpkg/installed/x64-windows/include/GLES/gl.h"
+#define GL_CLAMP_TO_EDGE 0x812F
 
 Scenario* Scenario::singleton_ = nullptr;
 
@@ -99,6 +103,11 @@ PlayerObject* Scenario::getPlayerObj(const std::string name)
 
 }
 
+float Scenario::remap(float value, float istart, float istop, float ostart, float ostop) 
+{
+	return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
+}
+
 void Scenario::update( float dt )
 {
 	_delta_time = dt;
@@ -184,7 +193,14 @@ void Scenario::computeCollision()
 		{
 			float newX = player1->getPos()[0] + player1->size()[0] / 2 + ball->getRadius() / 2;
 			ball->setX(newX);
+			
+			/*float kickPosTop = player1->getPos()[1] + player1->size()[1] / 2;
+			float kickPosBot = player1->getPos()[1] - player1->size()[1] / 2;
+			float ballPos = ball->getPos()[1];
 
+			float hitAngle = remap(ballPos, kickPosTop, kickPosBot, 10, -10);
+
+			tmpAngle += hitAngle + 180*/;
 			if (ball->getAngle() >= 0.f && ball->getAngle() <= 180.f) //subindo
 			{
 				//rollBackPos();
@@ -196,8 +212,13 @@ void Scenario::computeCollision()
 				tmpAngle = 270.f - ball->getAngle();
 				tmpAngle += 270.f;
 			}
-			if (ball->vel() < 30)
+			if (ball->vel() < 24)
 				ball->setVel(ball->vel() + 3);
+
+			/*if (tmpAngle > 45)
+				tmpAngle = 45;
+			else if (tmpAngle < -45)
+				tmpAngle = -45;*/
 
 			ball->setAngle(tmpAngle);
 
@@ -214,6 +235,15 @@ void Scenario::computeCollision()
 			float newX = player2->getPos()[0] - player2->size()[0] / 2 - ball->getRadius() / 2;
 			ball->setX(newX);
 
+			//float kickPosTop = player2->getPos()[1] + player2->size()[1] / 2;
+			//float kickPosBot = player2->getPos()[1] - player2->size()[1] / 2;
+			//float ballPos = ball->getPos()[1];
+
+			//float hitAngle = remap(ballPos, kickPosTop, kickPosBot, -10, 10);
+			////std::cout << "tmpAngle " << tmpAngle << std::endl;
+			//std::cout << "hitAngle " << tmpAngle << std::endl;
+			//tmpAngle += hitAngle + 180.f;
+
 			if (ball->getAngle() >= 0.f && ball->getAngle() <= 180.f) //subindo
 			{
 				//rollBackPos();
@@ -228,6 +258,11 @@ void Scenario::computeCollision()
 
 			if (ball->vel() < 24)
 				ball->setVel(ball->vel() + 3);
+
+			//if (tmpAngle > 45)
+			//	tmpAngle = 45;
+			//else if (tmpAngle < -45)
+			//	tmpAngle = -45;
 
 			ball->setAngle(tmpAngle);
 
@@ -247,19 +282,41 @@ void Scenario::computeCollision()
 
 	if (playAudio)
 	{
+#if defined(WIN32)
 		PlaySound(TEXT("./resources/hit1.wav"), NULL, SND_ASYNC | SND_FILENAME);
+#endif
 	}
 	if (playAudioSide)
 	{
+#if defined(WIN32)
 		PlaySound(TEXT("./resources/hit2.wav"), NULL, SND_ASYNC | SND_FILENAME);
+#endif
 	}
 
 }
 
 void Scenario::drawWorld()
 {
+	//float vertices[] = {
+	//	// positions          // colors           // texture coords
+	//	 1280, 720, 0,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,   // top right
+	//	 1280, 0, 0.f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // bottom right
+	//		0, 0, 0.f,   1.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+	//		0, 720, 0,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f    // top left 
+	//};
+
+
+	glBegin(GL_POLYGON);
+	glColor3f(27.f/255.f, 120.f / 255.f, 56.f / 255.f);
+	glVertex3f(1280, 720, 0);
+	glVertex3f(1280, 0, 0);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0, 720, 0);
+	glEnd();
+
 	glBegin(GL_LINES);
-	glColor3f(0.5f, 0.f, 0.5f);
+	glLineWidth(24.f);
+	glColor3f(1.f, 1.f, 1.f);
 	glVertex3f(640, 0, 0);
 	glVertex3f(640, 720, 0);
 	glEnd();
