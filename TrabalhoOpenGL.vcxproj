@@ -158,9 +158,6 @@
     <Media Include="resources\hit1.wav" />
     <Media Include="resources\hit2.wav" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="resources\tennis.bmp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

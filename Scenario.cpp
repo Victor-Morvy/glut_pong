@@ -4,13 +4,23 @@
 #include <time.h>
 #include <gl/GL.h>
 #include <gl/freeglut.h>
-//#include "C:/Users/morvy/OneDrive/Documentos/GitHub/vcpkg/installed/x64-windows/include/GLES/gl.h"
-#define GL_CLAMP_TO_EDGE 0x812F
 
 Scenario* Scenario::singleton_ = nullptr;
 
 Scenario::Scenario()
 {
+	TextObject* txtAlunos = new TextObject("\
+		Grupo:\n\
+		RA 2004526 – Victor Hugo Martins de Oliveira\n\
+		RA 1902879 - Paula Akemi Tanaka\n\
+		RA 1800935 – Luiz Almeida");
+	txtAlunos->setPos(10, 690);
+	entities.push_back(txtAlunos);
+
+	TextObject* txtInfo = new TextObject("'Q' and 'A' to control left player\n'I' and 'K' to control right player\n'ESC' to close.");
+	txtInfo->setPos(10, 80);
+	entities.push_back(txtInfo);
+
 	float playerSize[2] = { 25, 200 };
 
 	score_p1 = new TextObject("1000");
@@ -36,6 +46,8 @@ Scenario::Scenario()
 	ball->setPos(640, 450);
 	ball->setAngle(45);
 	ball->setVel(5);
+
+	
 
 	score_player1 = 0;
 	score_player2 = 0;
