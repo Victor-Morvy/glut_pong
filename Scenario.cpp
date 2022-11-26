@@ -13,7 +13,8 @@ Scenario::Scenario()
 		Grupo:\n\
 		RA 2004526 – Victor Hugo Martins de Oliveira\n\
 		RA 1902879 - Paula Akemi Tanaka\n\
-		RA 1800935 – Luiz Almeida");
+		RA 1800935 – Luiz Almeida\n\
+		RA 1902918 - Caio Bueno");
 	txtAlunos->setPos(10, 690);
 	entities.push_back(txtAlunos);
 
